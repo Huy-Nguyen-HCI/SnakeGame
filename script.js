@@ -11,7 +11,6 @@ $(document).ready(function() {
 		this.height = height;
 
 		this.draw = function() {
-			ctx.fillStyle = 'blue';
 			ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
 
