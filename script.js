@@ -19,9 +19,9 @@ $(document).ready(function() {
 		}
 	} 
 
-	var snakePart = new Rectangle(0, 0, 50, 50);
+	var snakePart = new Rectangle(0, 0, 10, 10);
 
-	var lastInput;
+	var lastInput = null;
 	var start = 0;
 	var requestId;
 	var direction = "right";
@@ -51,11 +51,23 @@ $(document).ready(function() {
 			return;
 
 		var current = new Date().getTime();
-		// Only process input after a given elapsed
-		if(current - start < 10) {
-			lastInput = null;
+
+		if(lastInput != null)
+			direction = lastInput;
+		
+		// Time elapsed
+		if(current - start < 50) {
 			return;
 		}
+
+		if(direction === 'right')
+			snakePart.x += 5;
+		else if(direction === 'left')
+			snakePart.x -= 5;
+		else if(direction === 'up')
+			snakePart.y -= 5;
+		else if(direction === 'down')
+			snakePart.y += 5;
 
 		start = current;
 		lastInput = null;
