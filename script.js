@@ -30,16 +30,19 @@ $(document).ready(function() {
 		}
 	} 
 
-	var snakePart = new Rectangle(0, 0, 10, 10);
+	var snakePart;
 
-	var lastInput = null;
+	var lastInput;
 	var start = 0;
 	var requestId;
-	var direction = "right";
-	var running = false;
+	var direction;
 
 	$('#start').click(function(){
-		running = true;
+		snakePart = new Rectangle(0, 0, 10, 10)
+		lastInput = null;
+		direction = "right";
+
+		requestId = requestAnimationFrame(draw);
 	});
 
 	function draw() {
@@ -59,13 +62,15 @@ $(document).ready(function() {
 		k.down(['any arrow', 'any letter'], function() {
 			lastInput = k.lastKey();
 		});
-		if (lastInput == 'up' || 
-			lastInput == 'down' || 
-			lastInput == 'left' || 
-			lastInput == 'right' )
+		if ((lastInput == 'up' && direction != 'down') || 
+			(lastInput == 'down' && direction != 'up') || 
+			(lastInput == 'left' && direction != 'right') || 
+			(lastInput == 'right' && direction != 'left'))
 		{
 			direction = lastInput;
+			console.log(direction);
 		}
+
 	}
 
 	function moveSnake() {
@@ -82,8 +87,7 @@ $(document).ready(function() {
 		if(current - start < 50) {
 			return;
 		}
-		if (running == true)
-			snakePart.moveByDirection(direction);
+		snakePart.moveByDirection(direction);
 		start = current;
 		lastInput = null;
 	}
@@ -93,5 +97,4 @@ $(document).ready(function() {
 		snakePart.draw();
 	}
 
-	draw();
 });
