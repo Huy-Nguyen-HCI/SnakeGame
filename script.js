@@ -22,11 +22,35 @@ $(document).ready(function() {
 	var snakePart = new Rectangle(0, 0, 50, 50);
 	snakePart.draw();
 
-	var k = new Kibo();
+	function draw() {
+		requestAnimationFrame(draw);
+		processInput();
+		drawAll();
+	}
 
-	k.down(['down', 's'], function() {
-		snakePart.clear();
-		snakePart.y += 10;
+	function processInput() {
+		var k = new Kibo();
+
+		k.down(['any arrow'], function() {
+			if(k.lastKey() === 'down') {
+				snakePart.y += 10;
+			}
+			else if(k.lastKey() === 'up') {
+				snakePart.y -= 10;
+			}
+			else if(k.lastKey() === 'left') {
+				snakePart.x -= 10;
+			}
+			else {
+				snakePart.x += 10;
+			}
+		});
+	}
+
+	function drawAll() {
+		ctx.clearRect(0, 0, c.width, c.height);
 		snakePart.draw();
-	});
+	}
+
+	draw();
 });
