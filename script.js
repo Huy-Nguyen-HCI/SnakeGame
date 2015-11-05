@@ -24,6 +24,7 @@ $(document).ready(function() {
 	var lastInput;
 	var start = 0;
 	var requestId;
+	var direction = "right";
 
 	function draw() {
 		processInput();
@@ -40,13 +41,7 @@ $(document).ready(function() {
 		var k = new Kibo();
 
 		k.down(['any arrow', 'any letter'], function() {
-			var current = new Date().getTime();
-
-			// Only process input after a given elapsed time.
-			if(current - start > 50) {
-				lastInput = k.lastKey();
-				start = current;
-			}
+			lastInput = k.lastKey();
 		});
 	}
 
@@ -55,15 +50,14 @@ $(document).ready(function() {
 		if(lastInput === "q")
 			return;
 
-		if(lastInput === "down")
-			snakePart.y += 10;
-		else if(lastInput === "up")
-			snakePart.y -= 10;
-		else if(lastInput === "left")
-			snakePart.x -= 10;
-		else if(lastInput === "right")
-			snakePart.x += 10;
+		var current = new Date().getTime();
+		// Only process input after a given elapsed
+		if(current - start < 10) {
+			lastInput = null;
+			return;
+		}
 
+		start = current;
 		lastInput = null;
 	}
 
