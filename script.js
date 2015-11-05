@@ -17,6 +17,17 @@ $(document).ready(function() {
 		this.clear = function() {
 			ctx.clearRect(this.x, this.y, this.width, this.height);
 		}
+
+		this.moveByDirection = function(direction){
+			if(direction === 'right')
+				snakePart.x += 5;
+			else if(direction === 'left')
+				snakePart.x -= 5;
+			else if(direction === 'up')
+				snakePart.y -= 5;
+			else if(direction === 'down')
+				snakePart.y += 5;
+		}
 	} 
 
 	var snakePart = new Rectangle(0, 0, 10, 10);
@@ -43,6 +54,13 @@ $(document).ready(function() {
 		k.down(['any arrow', 'any letter'], function() {
 			lastInput = k.lastKey();
 		});
+		if (lastInput == 'up' || 
+			lastInput == 'down' || 
+			lastInput == 'left' || 
+			lastInput == 'right' )
+		{
+			direction = lastInput;
+		}
 	}
 
 	function moveSnake() {
@@ -59,16 +77,7 @@ $(document).ready(function() {
 		if(current - start < 50) {
 			return;
 		}
-
-		if(direction === 'right')
-			snakePart.x += 5;
-		else if(direction === 'left')
-			snakePart.x -= 5;
-		else if(direction === 'up')
-			snakePart.y -= 5;
-		else if(direction === 'down')
-			snakePart.y += 5;
-
+		snakePart.moveByDirection(direction);
 		start = current;
 		lastInput = null;
 	}
