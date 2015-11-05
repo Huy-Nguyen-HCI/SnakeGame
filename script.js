@@ -20,31 +20,51 @@ $(document).ready(function() {
 	} 
 
 	var snakePart = new Rectangle(0, 0, 50, 50);
-	snakePart.draw();
+
+	var lastInput;
+	var start = 0;
+	var requestId;
 
 	function draw() {
-		requestAnimationFrame(draw);
 		processInput();
+		moveSnake();
 		drawAll();
+		requestId = requestAnimationFrame(draw);
+
+		if(lastInput == 'q') {
+			cancelAnimationFrame(requestId);
+		}
 	}
 
 	function processInput() {
 		var k = new Kibo();
 
-		k.down(['any arrow'], function() {
-			if(k.lastKey() === 'down') {
-				snakePart.y += 10;
-			}
-			else if(k.lastKey() === 'up') {
-				snakePart.y -= 10;
-			}
-			else if(k.lastKey() === 'left') {
-				snakePart.x -= 10;
-			}
-			else {
-				snakePart.x += 10;
+		k.down(['any arrow', 'any letter'], function() {
+			var current = new Date().getTime();
+
+			// Only process input after a given elapsed time.
+			if(current - start > 50) {
+				lastInput = k.lastKey();
+				start = current;
 			}
 		});
+	}
+
+	function moveSnake() {
+		// If press q, stop the game
+		if(lastInput === "q")
+			return;
+
+		if(lastInput === "down")
+			snakePart.y += 10;
+		else if(lastInput === "up")
+			snakePart.y -= 10;
+		else if(lastInput === "left")
+			snakePart.x -= 10;
+		else if(lastInput === "right")
+			snakePart.x += 10;
+
+		lastInput = null;
 	}
 
 	function drawAll() {
