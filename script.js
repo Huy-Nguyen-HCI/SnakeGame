@@ -36,6 +36,11 @@ $(document).ready(function() {
 	var start = 0;
 	var requestId;
 	var direction = "right";
+	var running = false;
+
+	$('#start').click(function(){
+		running = true;
+	});
 
 	function draw() {
 		processInput();
@@ -77,7 +82,8 @@ $(document).ready(function() {
 		if(current - start < 50) {
 			return;
 		}
-		snakePart.moveByDirection(direction);
+		if (running == true)
+			snakePart.moveByDirection(direction);
 		start = current;
 		lastInput = null;
 	}
