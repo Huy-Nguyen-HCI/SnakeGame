@@ -5,6 +5,7 @@ $(document).ready(function() {
 	ctx.fillStyle = 'blue';
 
 	function Rectangle(x, y, width, height) {
+		this.STEP = 10;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -18,15 +19,30 @@ $(document).ready(function() {
 			ctx.clearRect(this.x, this.y, this.width, this.height);
 		}
 
-		this.moveByDirection = function(direction){
-			if(direction === 'right')
-				snakePart.x += 5;
-			else if(direction === 'left')
-				snakePart.x -= 5;
+		this.moveByDirection = function(direction, isHead){
+
+			var tempRect = new Rectangle(this.x, this.y, this.width, this.height);
+			if(direction === 'right') {
+				tempRect.x += this.STEP;
+
+				if(tempRect.collide(prey))
+					prey.clear();
+				
+				snakePart.x += this.STEP;
+			}
+			else if(direction === 'left') {
+				snakePart.x -= this.STEP;
+			}
 			else if(direction === 'up')
-				snakePart.y -= 5;
+				snakePart.y -= this.STEP;
 			else if(direction === 'down')
-				snakePart.y += 5;
+				snakePart.y += this.STEP;
+		}
+
+		this.collide = function(other) {
+			if(this.x == other.x && this.y == other.y)
+				return true;
+			return false;
 		}
 	} 
 
@@ -51,7 +67,7 @@ $(document).ready(function() {
 		drawAll();
 		requestId = requestAnimationFrame(draw);
 
-		if(lastInput == 'q') {
+		if(lastInput === 'q') {
 			cancelAnimationFrame(requestId);
 		}
 	}
@@ -62,14 +78,13 @@ $(document).ready(function() {
 		k.down(['any arrow', 'any letter'], function() {
 			lastInput = k.lastKey();
 		});
-		if ((lastInput == "up" && direction != "down") || 
-			(lastInput == "down" && direction != "up") || 
-			(lastInput == "left" && direction != "right") || 
-			(lastInput == "right" && direction != "left"))
+		if ((lastInput === "up" && direction !== "down") || 
+			(lastInput === "down" && direction !== "up") || 
+			(lastInput === "left" && direction !== "right") || 
+			(lastInput === "right" && direction !== "left"))
 		{
 			direction = lastInput;
 		}
-
 	}
 
 	function moveSnake() {
@@ -79,12 +94,11 @@ $(document).ready(function() {
 
 		var current = new Date().getTime();
 
-		
 		// Time elapsed
-		if(current - start < 50) {
+		if(current - start < 80) {
 			return;
 		}
-		snakePart.moveByDirection(direction);
+		snakePart.moveByDirection(direction, true);
 		start = current;
 		lastInput = null;
 	}
