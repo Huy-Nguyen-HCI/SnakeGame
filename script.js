@@ -16,27 +16,24 @@ $(document).ready(function() {
 		}
 
 		this.clear = function() {
-			ctx.clearRect(this.x, this.y, this.width, this.height);
+			this.width = 0;
+			this.height = 0;
 		}
 
 		this.moveByDirection = function(direction, isHead){
-
 			var tempRect = new Rectangle(this.x, this.y, this.width, this.height);
-			if(direction === 'right') {
-				tempRect.x += this.STEP;
 
-				if(tempRect.collide(prey))
-					prey.clear();
-				
+			if(direction === 'right') 
 				snakePart.x += this.STEP;
-			}
-			else if(direction === 'left') {
+			else if(direction === 'left') 
 				snakePart.x -= this.STEP;
-			}
 			else if(direction === 'up')
 				snakePart.y -= this.STEP;
 			else if(direction === 'down')
 				snakePart.y += this.STEP;
+
+			if(this.collide(prey))
+				prey.clear();
 		}
 
 		this.collide = function(other) {
@@ -47,14 +44,15 @@ $(document).ready(function() {
 	} 
 
 	var snakePart;
-
+	var prey;
 	var lastInput;
 	var start = 0;
 	var requestId;
 	var direction;
 
 	$('#start').click(function(){
-		snakePart = new Rectangle(0, 0, 10, 10)
+		prey = new Rectangle(50, 50, 10, 10);
+		snakePart = new Rectangle(0, 0, 10, 10);
 		lastInput = null;
 		direction = "right";
 
@@ -106,6 +104,7 @@ $(document).ready(function() {
 	function drawAll() {
 		ctx.clearRect(0, 0, c.width, c.height);
 		snakePart.draw();
+		prey.draw();
 	}
 
 });
