@@ -62,13 +62,12 @@ $(document).ready(function() {
 		k.down(['any arrow', 'any letter'], function() {
 			lastInput = k.lastKey();
 		});
-		if ((lastInput == 'up' && direction != 'down') || 
-			(lastInput == 'down' && direction != 'up') || 
-			(lastInput == 'left' && direction != 'right') || 
-			(lastInput == 'right' && direction != 'left'))
+		if ((lastInput == "up" && direction != "down") || 
+			(lastInput == "down" && direction != "up") || 
+			(lastInput == "left" && direction != "right") || 
+			(lastInput == "right" && direction != "left"))
 		{
 			direction = lastInput;
-			console.log(direction);
 		}
 
 	}
@@ -80,8 +79,6 @@ $(document).ready(function() {
 
 		var current = new Date().getTime();
 
-		if(lastInput != null)
-			direction = lastInput;
 		
 		// Time elapsed
 		if(current - start < 50) {
