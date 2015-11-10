@@ -33,7 +33,7 @@ $(document).ready(function() {
 				snakePart.y += this.STEP;
 
 			if(this.collide(prey))
-				prey.clear();
+				generatePreyPosition();
 		}
 
 		this.collide = function(other) {
