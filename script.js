@@ -44,9 +44,11 @@ $(document).ready(function() {
 				return true;
 			return false;
 		}
+
 	} 
 
 	var snakePart;
+	var prey;
 
 	var lastInput;
 	var start = 0;
@@ -54,7 +56,9 @@ $(document).ready(function() {
 	var direction;
 
 	$('#start').click(function(){
-		snakePart = new Rectangle(0, 0, 10, 10)
+		snakePart = new Rectangle(0, 0, 10, 10);
+		prey = new Rectangle(0, 0, 10, 10);
+		generatePreyPosition();
 		lastInput = null;
 		direction = "right";
 
@@ -106,6 +110,17 @@ $(document).ready(function() {
 	function drawAll() {
 		ctx.clearRect(0, 0, c.width, c.height);
 		snakePart.draw();
+		prey.draw();
+	}
+
+	function generatePreyPosition(){
+		var x, y;
+		do {
+			x = Math.floor(Math.random() * (c.width / 10)) * 10;
+			y = Math.floor(Math.random() * (c.height / 10)) * 10;
+		} while (x == snakePart.x && y == snakePart.y);
+		prey.x = x;
+		prey.y = y;
 	}
 
 });
