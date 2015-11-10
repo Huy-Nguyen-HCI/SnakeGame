@@ -16,27 +16,24 @@ $(document).ready(function() {
 		}
 
 		this.clear = function() {
-			ctx.clearRect(this.x, this.y, this.width, this.height);
+			this.width = 0;
+			this.height = 0;
 		}
 
 		this.moveByDirection = function(direction, isHead){
-
 			var tempRect = new Rectangle(this.x, this.y, this.width, this.height);
-			if(direction === 'right') {
-				tempRect.x += this.STEP;
 
-				if(tempRect.collide(prey))
-					prey.clear();
-				
+			if(direction === 'right') 
 				snakePart.x += this.STEP;
-			}
-			else if(direction === 'left') {
+			else if(direction === 'left') 
 				snakePart.x -= this.STEP;
-			}
 			else if(direction === 'up')
 				snakePart.y -= this.STEP;
 			else if(direction === 'down')
 				snakePart.y += this.STEP;
+
+			if(this.collide(prey))
+				prey.clear();
 		}
 
 		this.collide = function(other) {
@@ -49,16 +46,24 @@ $(document).ready(function() {
 
 	var snakePart;
 	var prey;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5c10b391285efbbfa86289a616e8bc16f9537f61
 	var lastInput;
 	var start = 0;
 	var requestId;
 	var direction;
 
 	$('#start').click(function(){
+<<<<<<< HEAD
 		snakePart = new Rectangle(0, 0, 10, 10);
 		prey = new Rectangle(0, 0, 10, 10);
 		generatePreyPosition();
+=======
+		prey = new Rectangle(50, 50, 10, 10);
+		snakePart = new Rectangle(0, 0, 10, 10);
+>>>>>>> 5c10b391285efbbfa86289a616e8bc16f9537f61
 		lastInput = null;
 		direction = "right";
 
