@@ -24,13 +24,13 @@ $(document).ready(function() {
 			var tempRect = new Rectangle(this.x, this.y, this.width, this.height);
 
 			if(direction === 'right') 
-				snakePart.x += this.STEP;
+				this.x += this.STEP;
 			else if(direction === 'left') 
-				snakePart.x -= this.STEP;
+				this.x -= this.STEP;
 			else if(direction === 'up')
-				snakePart.y -= this.STEP;
+				this.y -= this.STEP;
 			else if(direction === 'down')
-				snakePart.y += this.STEP;
+				this.y += this.STEP;
 
 			if(this.collide(prey))
 				generatePreyPosition();
@@ -44,7 +44,8 @@ $(document).ready(function() {
 
 	} 
 
-	var snakePart;
+	var snakePart = [];
+
 	var prey;
 
 	var lastInput;
@@ -54,7 +55,7 @@ $(document).ready(function() {
 
 	$('#start').click(function(){
 
-		snakePart = new Rectangle(0, 0, 10, 10);
+		snakePart.push(new Rectangle(0, 0, 10, 10));
 		prey = new Rectangle(0, 0, 10, 10);
 		generatePreyPosition();
 
@@ -101,14 +102,14 @@ $(document).ready(function() {
 		if(current - start < 80) {
 			return;
 		}
-		snakePart.moveByDirection(direction, true);
+		snakePart[0].moveByDirection(direction, true);
 		start = current;
 		lastInput = null;
 	}
 
 	function drawAll() {
 		ctx.clearRect(0, 0, c.width, c.height);
-		snakePart.draw();
+		snakePart[0].draw();
 		prey.draw();
 	}
 
@@ -117,7 +118,7 @@ $(document).ready(function() {
 		do {
 			x = Math.floor(Math.random() * (c.width / 10)) * 10;
 			y = Math.floor(Math.random() * (c.height / 10)) * 10;
-		} while (x == snakePart.x && y == snakePart.y);
+		} while (x == snakePart[0].x && y == snakePart[0].y);
 		prey.x = x;
 		prey.y = y;
 	}
