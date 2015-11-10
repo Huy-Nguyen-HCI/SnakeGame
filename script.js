@@ -46,24 +46,18 @@ $(document).ready(function() {
 
 	var snakePart;
 	var prey;
-<<<<<<< HEAD
 
-=======
->>>>>>> 5c10b391285efbbfa86289a616e8bc16f9537f61
 	var lastInput;
 	var start = 0;
 	var requestId;
 	var direction;
 
 	$('#start').click(function(){
-<<<<<<< HEAD
+
 		snakePart = new Rectangle(0, 0, 10, 10);
 		prey = new Rectangle(0, 0, 10, 10);
 		generatePreyPosition();
-=======
-		prey = new Rectangle(50, 50, 10, 10);
-		snakePart = new Rectangle(0, 0, 10, 10);
->>>>>>> 5c10b391285efbbfa86289a616e8bc16f9537f61
+
 		lastInput = null;
 		direction = "right";
 
