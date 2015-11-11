@@ -30,11 +30,8 @@ $(document).ready(function() {
 
 
 	function Snake(x, y, width, height){
-		this.STEP = 10;
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		Rectangle.call(this, x, y, width, height);
+
 		this.moveByDirection = function(direction, isHead){
 			var tempRect = new Rectangle(this.x, this.y, this.width, this.height);
 
@@ -53,9 +50,7 @@ $(document).ready(function() {
 	}
 
 	Snake.prototype = new Rectangle();
-	Snake.prototype.constructor = Rectangle;
-				
-
+	Snake.prototype.constructor = Snake;
 
 	var snakePart = [];
 
@@ -69,7 +64,6 @@ $(document).ready(function() {
 	$('#start').click(function(){
 
 		snakePart.push(new Snake(0, 0, 10, 10));
-		console.log(snakePart[0].x + " " + snakePart[0].y);
 		prey = new Rectangle(0, 0, 10, 10);
 		generatePreyPosition();
 
@@ -80,10 +74,7 @@ $(document).ready(function() {
 	});
 
 	var fps = 15;
-<<<<<<< HEAD
 
-=======
->>>>>>> a2f8c10854794c13022491338991a04b6e40f9cc
 	function draw() {
 		setTimeout(function() {
 			processInput();
