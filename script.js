@@ -12,6 +12,7 @@ $(document).ready(function() {
 		this.height = height;
 
 		this.draw = function(){
+			//console.log(this.x + " " + this.y);
 			ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
 
@@ -27,7 +28,6 @@ $(document).ready(function() {
 		}
 
 	} 
-
 
 	function Snake(x, y, width, height){
 		Rectangle.call(this, x, y, width, height);
@@ -49,34 +49,42 @@ $(document).ready(function() {
 		}
 	}
 
+	Snake.prototype = Rectangle.prototype;
 	Snake.prototype = new Rectangle();
 	Snake.prototype.constructor = Snake;
 
-	var snakePart = [];
-
+	var snakePart;
 	var prey;
 
 	var lastInput;
-	var start = 0;
-	var requestId;
 	var direction;
 
+	var start = 0;
+	var requestId;
+	var timeoutHandler;
+	var isStop = true;
+
 	$('#start').click(function(){
+		if(isStop) {
+			clearTimeout(timeoutHandler);
 
-		snakePart.push(new Snake(0, 0, 10, 10));
-		prey = new Rectangle(0, 0, 10, 10);
-		generatePreyPosition();
+			snakePart = [];
+			snakePart.push(new Snake(0, 0, 10, 10));
+			prey = new Rectangle(0, 0, 10, 10);
+			generatePreyPosition();
 
-		lastInput = null;
-		direction = "right";
+			lastInput = null;
+			direction = "right";
+			isStop = false;
 
-		requestId = requestAnimationFrame(draw);
+			requestId = requestAnimationFrame(draw);
+		}
 	});
 
 	var fps = 15;
 
 	function draw() {
-		setTimeout(function() {
+		timeoutHandler = setTimeout(function() {
 			processInput();
 			moveSnake();
 			drawAll();
@@ -84,6 +92,7 @@ $(document).ready(function() {
 		}, 1000/fps);
 		
 		if(lastInput === 'q') {
+			isStop = true;
 			cancelAnimationFrame(requestId);
 		}
 	}
