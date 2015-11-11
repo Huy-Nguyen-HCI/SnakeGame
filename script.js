@@ -69,7 +69,9 @@ $(document).ready(function() {
 			clearTimeout(timeoutHandler);
 
 			snakePart = [];
-			snakePart.push(new Snake(0, 0, 10, 10));
+			for (var i = 3; i >= 1; i--)
+				snakePart.push(new Snake(0, 0, 10 * i, 10));
+
 			prey = new Rectangle(0, 0, 10, 10);
 			generatePreyPosition();
 
@@ -124,14 +126,16 @@ $(document).ready(function() {
 		if(current - start < 10) {
 			return;
 		}
-		snakePart[0].moveByDirection(direction, true);
+		for (var i = 0 ; i < snakePart.length; i++)
+			snakePart[0].moveByDirection(direction, true);
 		start = current;
 		lastInput = null;
 	}
 
 	function drawAll() {
 		ctx.clearRect(0, 0, c.width, c.height);
-		snakePart[0].draw();
+		for (var i = 0 ; i < snakePart.length; i++)
+			snakePart[0].draw();
 		prey.draw();
 	}
 
