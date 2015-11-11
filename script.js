@@ -65,12 +65,15 @@ $(document).ready(function() {
 		requestId = requestAnimationFrame(draw);
 	});
 
+	var fps = 15;
 	function draw() {
-		processInput();
-		moveSnake();
-		drawAll();
-		requestId = requestAnimationFrame(draw);
-
+		setTimeout(function() {
+			processInput();
+			moveSnake();
+			drawAll();
+			requestId = requestAnimationFrame(draw);
+		}, 1000/fps);
+		
 		if(lastInput === 'q') {
 			cancelAnimationFrame(requestId);
 		}
@@ -99,7 +102,7 @@ $(document).ready(function() {
 		var current = new Date().getTime();
 
 		// Time elapsed
-		if(current - start < 80) {
+		if(current - start < 10) {
 			return;
 		}
 		snakePart[0].moveByDirection(direction, true);
