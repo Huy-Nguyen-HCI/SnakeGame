@@ -80,7 +80,10 @@ $(document).ready(function() {
 	});
 
 	var fps = 15;
+<<<<<<< HEAD
 
+=======
+>>>>>>> a2f8c10854794c13022491338991a04b6e40f9cc
 	function draw() {
 		setTimeout(function() {
 			processInput();
@@ -116,7 +119,8 @@ $(document).ready(function() {
 
 		var current = new Date().getTime();
 
-		// Time elapsed
+
+		// Time elapsed before move (to avoid spamming button)
 		if(current - start < 10) {
 			return;
 		}
