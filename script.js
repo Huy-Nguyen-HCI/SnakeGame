@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var c = $("#c")[0];
 	var ctx = c.getContext("2d");
 
-	ctx.fillStyle = 'blue';
+	ctx.fillStyle = '#7FFF00';
 
 	function Rectangle(x, y, width, height) {
 		this.STEP = 10;
@@ -12,8 +12,8 @@ $(document).ready(function() {
 		this.height = height;
 
 		this.draw = function(){
-			//console.log(this.x + " " + this.y);
 			ctx.fillRect(this.x, this.y, this.width, this.height);
+			ctx.strokeRect(this.x, this.y, this.width, this.height);
 		}
 
 		this.clear = function() {
@@ -32,7 +32,7 @@ $(document).ready(function() {
 	function Snake(x, y, width, height){
 		Rectangle.call(this, x, y, width, height);
 
-		this.moveByDirection = function(direction, isHead){
+		this.moveByDirection = function(direction){
 			var tempRect = new Rectangle(this.x, this.y, this.width, this.height);
 
 			if(direction === 'right') 
@@ -46,6 +46,11 @@ $(document).ready(function() {
 
 			if(this.collide(prey))
 				generatePreyPosition();
+		}
+
+		this.moveTo = function(newX, newY) {
+			this.x = newX;
+			this.y = newY;
 		}
 	}
 
@@ -69,8 +74,8 @@ $(document).ready(function() {
 			clearTimeout(timeoutHandler);
 
 			snakePart = [];
-			for (var i = 3; i >= 1; i--)
-				snakePart.push(new Snake(0, 0, 10 * i, 10));
+			for (var i = 4; i >= 1; i--)
+				snakePart.push(new Snake(10*i, 10, 10, 10));
 
 			prey = new Rectangle(0, 0, 10, 10);
 			generatePreyPosition();
@@ -126,8 +131,12 @@ $(document).ready(function() {
 		if(current - start < 10) {
 			return;
 		}
-		for (var i = 0 ; i < snakePart.length; i++)
-			snakePart[0].moveByDirection(direction, true);
+
+		for (var i = snakePart.length - 1 ; i >= 1; i--) {
+			snakePart[i].moveTo(snakePart[i-1].x, snakePart[i-1].y);
+		}
+		snakePart[0].moveByDirection(direction);
+
 		start = current;
 		lastInput = null;
 	}
@@ -135,7 +144,7 @@ $(document).ready(function() {
 	function drawAll() {
 		ctx.clearRect(0, 0, c.width, c.height);
 		for (var i = 0 ; i < snakePart.length; i++)
-			snakePart[0].draw();
+			snakePart[i].draw();
 		prey.draw();
 	}
 
