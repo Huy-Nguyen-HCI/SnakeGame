@@ -100,7 +100,7 @@ $(document).ready(function() {
 
 		var current = new Date().getTime();
 
-		// Time elapsed
+		// Time elapsed before move (to avoid spamming button)
 		if(current - start < 10) {
 			return;
 		}
