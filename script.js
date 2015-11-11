@@ -11,7 +11,7 @@ $(document).ready(function() {
 		this.width = width;
 		this.height = height;
 
-		this.draw = function() {
+		this.draw = function(){
 			ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
 
@@ -20,6 +20,21 @@ $(document).ready(function() {
 			this.height = 0;
 		}
 
+		this.collide = function(other) {
+			if(this.x == other.x && this.y == other.y)
+				return true;
+			return false;
+		}
+
+	} 
+
+
+	function Snake(x, y, width, height){
+		this.STEP = 10;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.moveByDirection = function(direction, isHead){
 			var tempRect = new Rectangle(this.x, this.y, this.width, this.height);
 
@@ -35,14 +50,12 @@ $(document).ready(function() {
 			if(this.collide(prey))
 				generatePreyPosition();
 		}
+	}
 
-		this.collide = function(other) {
-			if(this.x == other.x && this.y == other.y)
-				return true;
-			return false;
-		}
+	Snake.prototype = new Rectangle();
+	Snake.prototype.constructor = Rectangle;
+				
 
-	} 
 
 	var snakePart = [];
 
@@ -55,7 +68,8 @@ $(document).ready(function() {
 
 	$('#start').click(function(){
 
-		snakePart.push(new Rectangle(0, 0, 10, 10));
+		snakePart.push(new Snake(0, 0, 10, 10));
+		console.log(snakePart[0].x + " " + snakePart[0].y);
 		prey = new Rectangle(0, 0, 10, 10);
 		generatePreyPosition();
 
@@ -66,6 +80,7 @@ $(document).ready(function() {
 	});
 
 	var fps = 15;
+
 	function draw() {
 		setTimeout(function() {
 			processInput();
