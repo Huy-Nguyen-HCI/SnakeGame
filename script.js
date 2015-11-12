@@ -71,6 +71,8 @@ $(document).ready(function() {
 	$('#start').click(function(){
 		if(isStop) {
 			clearTimeout(timeoutHandler);
+			score = 0;
+			$("#score").html("Score: " + 0);
 
 			snakePart = [];
 			for (var i = 4; i >= 1; i--)
