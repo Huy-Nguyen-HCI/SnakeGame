@@ -97,7 +97,7 @@ $(document).ready(function() {
 			requestId = requestAnimationFrame(draw);
 		}, 1000/fps);
 		
-		if(lastInput === 'q') {
+		if(lastInput === 'q' || snakeDead()) {
 			isStop = true;
 			cancelAnimationFrame(requestId);
 		}
@@ -122,7 +122,7 @@ $(document).ready(function() {
 
 	function moveSnake() {
 		// If press q, stop the game
-		if(lastInput === "q")
+		if(lastInput === "q" || snakeDead())
 			return;
 
 		var current = new Date().getTime();
@@ -151,9 +151,9 @@ $(document).ready(function() {
 			generatePreyPosition();
 			generateTail = true;
 			score ++;
-			console.log(score);
 			$("#score").html("Score: " + score);
 		}
+
 		start = current;
 		lastInput = null;
 	}
@@ -179,6 +179,18 @@ $(document).ready(function() {
 		for (i = 0 ; i < snakePart.length; i++){
 			if (x == snakePart[i].x && y == snakePart[i].y) 
 				return true;
+		}
+		return false;
+	}
+
+	function snakeDead(){
+		// snake goes out of bound
+		var x = snakePart[0].x;
+		var y = snakePart[0].y;
+		if (x < 0 || x > c.width - 10 || y < 0 || y > c.height - 10) 
+			return true;
+		for (i = 1; i < snakePart.length; i++){
+			if (snakePart[0].collide(snakePart[i])) return true;
 		}
 		return false;
 	}
