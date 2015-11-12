@@ -44,8 +44,6 @@ $(document).ready(function() {
 			else if(direction === 'down')
 				this.y += this.STEP;
 
-			if(this.collide(prey))
-				generatePreyPosition();
 		}
 
 		this.moveTo = function(newX, newY) {
@@ -119,6 +117,8 @@ $(document).ready(function() {
 		}
 	}
 
+	var generateTail = false;
+
 	function moveSnake() {
 		// If press q, stop the game
 		if(lastInput === "q")
@@ -132,11 +132,24 @@ $(document).ready(function() {
 			return;
 		}
 
+		var prevTailPosition_x = snakePart[snakePart.length-1].x;
+		var prevTailPosition_y = snakePart[snakePart.length-1].y;
+
 		for (var i = snakePart.length - 1 ; i >= 1; i--) {
 			snakePart[i].moveTo(snakePart[i-1].x, snakePart[i-1].y);
 		}
+
+		if (generateTail){
+			generateTail = false;
+			snakePart.push(new Snake(prevTailPosition_x, prevTailPosition_y, 10, 10));
+		}
+
 		snakePart[0].moveByDirection(direction);
 
+		if(snakePart[0].collide(prey)){
+			generatePreyPosition();
+			generateTail = true;
+		}
 		start = current;
 		lastInput = null;
 	}
@@ -153,9 +166,17 @@ $(document).ready(function() {
 		do {
 			x = Math.floor(Math.random() * (c.width / 10)) * 10;
 			y = Math.floor(Math.random() * (c.height / 10)) * 10;
-		} while (x == snakePart[0].x && y == snakePart[0].y);
+		} while (invalidRespawnPosition(x,y));
 		prey.x = x;
 		prey.y = y;
+	}
+
+	function invalidRespawnPosition(x, y){
+		for (i = 0 ; i < snakePart.length; i++){
+			if (x == snakePart[i].x && y == snakePart[i].y) 
+				return true;
+		}
+		return false;
 	}
 
 });
