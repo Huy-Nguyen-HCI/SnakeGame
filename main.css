@@ -1,0 +1,21 @@
+#score {
+	top: 0;
+	left: 550px;
+	position: absolute;
+}
+
+#c {
+	width: 500px;
+	height: 500px;
+	border: 1px solid #000000;
+}
+
+div {
+	display: block;
+}
+
+.wrapper {
+	margin: 0 auto;
+	width: 800px;
+	position: relative;
+}
