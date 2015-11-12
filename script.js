@@ -58,6 +58,7 @@ $(document).ready(function() {
 
 	var snakePart;
 	var prey;
+	var score = 0;
 
 	var lastInput;
 	var direction;
@@ -149,6 +150,9 @@ $(document).ready(function() {
 		if(snakePart[0].collide(prey)){
 			generatePreyPosition();
 			generateTail = true;
+			score ++;
+			console.log(score);
+			$("#score").html("Score: " + score);
 		}
 		start = current;
 		lastInput = null;
